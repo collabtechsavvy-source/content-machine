@@ -172,4 +172,61 @@ export default function App() {
           )}
         </div>
 
-        <button onClick={generate} disabled={loading || !selec
+        <button onClick={generate} disabled={loading || !selectedTopic.trim()}
+          style={{
+            width: "100%", padding: "14px",
+            background: loading ? "#0d1a10" : "#00ff64",
+            color: loading ? "#00ff6480" : "#000",
+            border: loading ? "1px solid #00ff6430" : "none",
+            borderRadius: 6, fontSize: 14, fontWeight: 900,
+            fontFamily: "'Courier New', monospace", cursor: loading ? "not-allowed" : "pointer",
+            letterSpacing: 3, transition: "all 0.2s", marginBottom: 24,
+          }}>
+          {loading ? "⟳ GENERATING..." : `⚡ GENERATE ${TABS[activeTab].split(" ")[1].toUpperCase()}`}
+        </button>
+
+        {(output || loading) && (
+          <div style={{
+            background: "#0a100c", border: "1px solid #1a3020",
+            borderRadius: 8, padding: 24, position: "relative",
+          }}>
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid #1a3020",
+            }}>
+              <span style={{ color: "#00ff64", fontSize: 11, letterSpacing: 3 }}>&gt; OUTPUT</span>
+              {output && (
+                <button onClick={copyOutput} style={{
+                  background: copied ? "#00ff6420" : "transparent",
+                  border: "1px solid #00ff6440",
+                  color: copied ? "#00ff64" : "#4a6454",
+                  padding: "4px 12px", borderRadius: 4, cursor: "pointer",
+                  fontSize: 11, fontFamily: "'Courier New', monospace", letterSpacing: 1,
+                }}>{copied ? "✓ COPIED" : "COPY"}</button>
+              )}
+            </div>
+            {loading ? (
+              <div style={{ color: "#00ff6460" }}>
+                {["Analyzing topic...", "Writing in your voice...", "Adding scary hooks...", "Finalizing content..."].map((msg, i) => (
+                  <div key={i} style={{ marginBottom: 8, fontSize: 13 }}>
+                    <style>{`@keyframes fadeIn { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }`}</style>
+                    <span style={{ color: "#00ff64", animation: `fadeIn 0.5s ease ${i * 0.4}s both` }}>&gt;</span> {msg}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <pre style={{
+                whiteSpace: "pre-wrap", color: "#c8d8c0", fontSize: 14,
+                lineHeight: 1.8, margin: 0, fontFamily: "'Courier New', monospace",
+              }}>{output}</pre>
+            )}
+          </div>
+        )}
+
+        <div style={{ textAlign: "center", marginTop: 32, color: "#1e3020", fontSize: 11, letterSpacing: 2 }}>
+          BUILT FOR YOUR TECH × CYBERSECURITY CONTENT
+        </div>
+      </div>
+    </div>
+  );
+}
